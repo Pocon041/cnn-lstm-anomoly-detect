@@ -39,10 +39,15 @@ pip install -r requirements.txt
    - 将UNSW-NB15数据集放在 `archive` 目录下
    - 确保数据文件命名为 `UNSW-NB15_1.csv` 到 `UNSW-NB15_4.csv`
    - 确保特征文件命名为 `NUSW-NB15_features.csv`
+   - 数据集可以在https://research.unsw.edu.au/projects/unsw-nb15-dataset处下载
 
 2. 运行训练：
 ```bash
 python train.py
+```
+也可直接运行单个脚本
+```bash
+python CNN-LSTM.py
 ```
 
 ## 模型架构
@@ -60,7 +65,3 @@ python train.py
 - 精确率 (Precision)
 - 召回率 (Recall)
 - 混淆矩阵
-
-## 许可证
-
-MIT License 

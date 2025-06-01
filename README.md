@@ -45,10 +45,6 @@ pip install -r requirements.txt
 ```bash
 python train.py
 ```
-也可直接运行单个脚本
-```bash
-python CNN-LSTM.py
-```
 
 ## 模型架构
 

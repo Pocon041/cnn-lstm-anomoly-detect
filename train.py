@@ -13,18 +13,22 @@ def train_and_evaluate():
     x_train, y_train, x_test, y_test, x_val, y_val = prepare_data(data)
     
     # 特征预处理
+    # 进行归一化处理
     x_train, x_test, x_val = preprocess_features(x_train, x_test, x_val)
+    # 对标签进行 one-hot编码
     y_train, y_test, y_val, attacks = preprocess_labels(y_train, y_test, y_val)
     
     # 创建和训练模型
-    n_features = x_train.shape[1]
+    n_features = x_train.shape[1]   # 获得输入维度
     model = create_model(n_features)
     
     # 训练模型
-    history = model.fit(x_train, y_train, 
-                       epochs=1, 
-                       batch_size=512,
-                       validation_data=(x_val, y_val))
+    history = model.fit(
+            x_train, y_train, 
+            epochs=5, 
+            batch_size=512,
+            validation_data=(x_val, y_val)
+        )
     
     # 评估模型
     test_loss, test_accuracy, test_precision, test_recall = model.evaluate(x_test, y_test)
@@ -34,8 +38,8 @@ def train_and_evaluate():
     print("Test Recall:", test_recall)
     
     # 交叉验证
-    kfold = StratifiedKFold(n_splits=2, shuffle=True, random_state=42)
-    y_train_labels = np.argmax(y_train, axis=1)
+    kfold = StratifiedKFold(n_splits=2, shuffle=True, random_state=42)  # 使用 StratifiedKFold 进行 2 折交叉验证
+    y_train_labels = np.argmax(y_train, axis=1)     # 将 one-hot 标签转为整数类别索引
     
     scores = []
     for train_index, val_index in kfold.split(x_train, y_train_labels):
@@ -44,7 +48,7 @@ def train_and_evaluate():
         
         model = create_model(n_features)
         model.fit(X_train_inner, y_train_inner, 
-                 epochs=1, 
+                 epochs=2, 
                  batch_size=256,
                  validation_data=(X_val_inner, y_val_inner))
         
